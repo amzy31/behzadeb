@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SolarContainer from './components/SolarContainer';
@@ -29,6 +29,24 @@ function App() {
     '/img/photo_2025-10-21_18-15-15.jpg',
     '/img/photo_2025-10-21_18-15-16.jpg',
   ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000); // Auto-slide every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleNavClick = (e, section) => {
     e.preventDefault();
@@ -95,10 +113,23 @@ function App() {
 
       <section id="gallery" className={`section gallery ${activeSection === 'gallery' ? 'active' : ''}`}>
         <h2>گالری تصاویر</h2>
-        <div className="gallery-grid">
-          {galleryImages.map((src, index) => (
-            <img className='rounded container' key={index} src={src} alt={`تصویر ${index + 1}`} loading="lazy" />
-          ))}
+        <div className="slideshow-container">
+          <img
+            src={galleryImages[currentSlide]}
+            alt={`تصویر ${currentSlide + 1}`}
+            className="slide"
+          />
+          <button className="prev" onClick={prevSlide}>❮</button>
+          <button className="next" onClick={nextSlide}>❯</button>
+          <div className="indicators">
+            {galleryImages.map((_, index) => (
+              <span
+                key={index}
+                className={`indicator ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => setCurrentSlide(index)}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
