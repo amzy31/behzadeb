@@ -31,6 +31,8 @@ function App() {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
@@ -38,6 +40,22 @@ function App() {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    if (isLeftSwipe) nextSlide();
+    if (isRightSwipe) prevSlide();
   };
 
   useEffect(() => {
@@ -57,7 +75,7 @@ function App() {
     <SolarContainer>
       <header className="header">
         <a href='./'>
-          <h1 className=' rounded-1 bg-dark text-text-primary-emphasis text-secondary rounded card card-header text-secondary' >سایت رسمی بهزاد ابراهیمی</h1>
+          <h1 className='rounded-1 text-emphasis rounded card card-header text-dark' >سایت رسمی بهزاد ابراهیمی</h1>
         </a>
         <nav className="navbar navbar-light bg-transparent justify-content-left fixed-bottom">
           <ul className="navbar-nav p-1">
@@ -118,14 +136,19 @@ function App() {
             src={galleryImages[currentSlide]}
             alt={`تصویر ${currentSlide + 1}`}
             className="slide"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           />
           <button className="prev" onClick={prevSlide}>❮</button>
           <button className="next" onClick={nextSlide}>❯</button>
-          <div className="indicators">
-            {galleryImages.map((_, index) => (
-              <span
+          <div className="thumbnails">
+            {galleryImages.map((src, index) => (
+              <img
                 key={index}
-                className={`indicator ${index === currentSlide ? 'active' : ''}`}
+                src={src}
+                alt={`Thumbnail ${index + 1}`}
+                className={`thumbnail ${index === currentSlide ? 'active' : ''}`}
                 onClick={() => setCurrentSlide(index)}
               />
             ))}
@@ -136,7 +159,7 @@ function App() {
       <footer className="footer text-info col-12 flex-wrap">
         <p>&copy;  2020-2025 بهزاد ابراهیمی. تمامی حقوق محفوظ است | 
           </p>
-          <span className='text-danger row-cols-12'>  UI: AMZY31 </span>
+          <span className='text-danger row-cols-12'>  DEPLOYED-BY: AMZY31 </span>
       </footer>
         <br />
         <br />
