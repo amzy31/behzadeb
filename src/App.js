@@ -159,7 +159,7 @@ function App() {
       <footer className="footer text-info col-12 flex-wrap">
         <p>&copy;  2020-2025 بهزاد ابراهیمی. تمامی حقوق محفوظ است | 
           </p>
-          <span className='text-danger row-cols-12'>  DEPLOYED-BY: AMZY31 </span>
+          <span className='text-danger row-cols-12'>  UI: AMZY31 </span>
       </footer>
         <br />
         <br />
