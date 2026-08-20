@@ -1,5 +1,15 @@
+README.md
+__pycache__/
+*.py[cod]
+*.log
+.venv/
+venv/
+env/
+.env
+instance/
+.pytest_cache/
+.coverage
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-*.log
