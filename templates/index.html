@@ -56,24 +56,32 @@
     </section>
 
     <section id="gallery" class="section-panel gallery-section">
-      <div class="section-heading"><span>03</span><div><p class="eyebrow">تصاویر</p><h2>لحظه‌ها</h2></div></div>
-      <p class="gallery-intro">یک تصویر را انتخاب کنید؛ تصویر انتخاب‌شده در مرکز قرار می‌گیرد.</p>
-      <div class="gallery-stage" data-gallery>
-        <div class="gallery-center">
-          <div class="center-image-wrap"><img id="centerImage" src="{{ url_for('static', filename='img/' ~ gallery[0]) if gallery else '' }}" alt="تصویر منتخب"></div>
-          <div class="center-meta"><span id="centerCounter">01 / {{ '%02d'|format(gallery|length) }}</span><span>انتخاب‌شده</span></div>
+      <div class="section-heading"><span>03</span><div><p class="eyebrow">تصاویر</p><h2>گالری دایره‌ای</h2></div></div>
+      <p class="gallery-intro">روی تصاویر حرکت کنید یا یکی را انتخاب کنید؛ گالری به‌صورت دایره‌ای و نرم متحرک است.</p>
+
+      <div class="circular-gallery" data-gallery>
+        <div class="circular-gallery-center">
+          <div class="center-image-wrap">
+            <img id="centerImage" src="{{ url_for('static', filename='img/' ~ gallery[0]) if gallery else '' }}" alt="تصویر منتخب">
+          </div>
+          <div class="center-title">بهزاد ابراهیمی</div>
+          <div class="center-meta"><span id="centerCounter">01 / {{ '%02d'|format(gallery|length) }}</span><span>تصویر منتخب</span></div>
         </div>
-        <div class="gallery-orbit" id="galleryOrbit">
+
+        <div class="circular-gallery-orbit" id="galleryOrbit">
           {% for image in gallery %}
-          <button class="orbit-item{% if loop.first %} selected{% endif %}" style="--i: {{ loop.index0 }}" data-index="{{ loop.index0 }}" data-image="{{ url_for('static', filename='img/' ~ image) }}" aria-label="انتخاب تصویر {{ loop.index }}">
+          <button class="circular-card{% if loop.first %} selected{% endif %}" style="--i: {{ loop.index0 }}; --count: {{ gallery|length }}" data-index="{{ loop.index0 }}" data-image="{{ url_for('static', filename='img/' ~ image) }}" aria-label="انتخاب تصویر {{ loop.index }}">
             <img src="{{ url_for('static', filename='img/' ~ image) }}" alt="تصویر {{ loop.index }}" loading="lazy">
+            <span class="card-number">{{ '%02d'|format(loop.index) }}</span>
           </button>
           {% endfor %}
         </div>
+
         <button class="gallery-arrow gallery-prev" data-gallery-prev aria-label="تصویر قبلی">‹</button>
         <button class="gallery-arrow gallery-next" data-gallery-next aria-label="تصویر بعدی">›</button>
       </div>
     </section>
+
   </main>
 
   <footer><span>© 2020–2026 بهزاد ابراهیمی</span><span>Developed By: AMZY31</span></footer>
