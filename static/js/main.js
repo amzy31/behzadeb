@@ -14,7 +14,7 @@
   sections.forEach(section => observer.observe(section));
   targetButton?.addEventListener('click', () => document.getElementById(targetButton.dataset.target)?.scrollIntoView({behavior:'smooth'}));
 
-  const items = [...document.querySelectorAll('.orbit-item')];
+  const items = [...document.querySelectorAll('.circular-card')];
   const center = document.getElementById('centerImage');
   const counter = document.getElementById('centerCounter');
   let selected = 0;
@@ -26,8 +26,8 @@
     items.forEach((item, i) => item.classList.toggle('selected', i === selected));
     const item = items[selected];
     if (center) {
-      center.style.opacity = '0.35';
-      center.style.transform = 'scale(.985)';
+      center.style.opacity = '0.2';
+      center.style.transform = 'scale(.96)';
       const img = new Image();
       img.onload = () => {
         center.src = item.dataset.image;
